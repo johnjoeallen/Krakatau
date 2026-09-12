@@ -15,7 +15,7 @@ pub use disassemble::DisassemblerOptions;
 // no assumption about how much stack that thread has -- see the CLI's own
 // `main.rs` for how much it actually needs there (256MB has been enough for
 // every input encountered so far). A caller who wants that same protection,
-// or a different amount, can use the `*_with_stack_size` variants below,
+// or a different amount, can use the `*_with_stack` variants below,
 // which run the real work on a freshly spawned worker thread instead.
 
 fn run_on_stack<T: Send>(stack_size: usize, f: impl FnOnce() -> T + Send) -> T {
@@ -39,7 +39,7 @@ pub fn assemble(
 /// Same as [`assemble`], but runs on a freshly spawned worker thread with
 /// exactly `stack_size` bytes of stack, rather than whatever the caller's own
 /// thread happens to have.
-pub fn assemble_with_stack_size(
+pub fn assemble_with_stack(
     source: &str,
     opts: AssemblerOptions,
     stack_size: usize,
@@ -64,7 +64,7 @@ pub fn disassemble(
 /// Same as [`disassemble`], but runs on a freshly spawned worker thread with
 /// exactly `stack_size` bytes of stack, rather than whatever the caller's own
 /// thread happens to have.
-pub fn disassemble_with_stack_size(
+pub fn disassemble_with_stack(
     data: &[u8],
     parse_opts: ParserOptions,
     opts: DisassemblerOptions,
