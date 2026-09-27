@@ -26,8 +26,7 @@ pub fn read_files(p: &Path, ext: &str, mut cb: impl FnMut(&str, &[u8]) -> Result
         // ship intentionally-invalid CRCs to break tooling. Match JVM behavior by
         // ignoring the CRC instead of rejecting the entry (see krakatau2#170).
         for i in 0..zip.len() {
-            let read_opts = zip::read::ZipReadOptions::default().ignore_crc32(true);
-            let mut file = zip.by_index_with_options(i, read_opts)?;
+            let mut file = zip.by_index_with_options(i, zip::read::ZipReadOptions::default().ignore_crc32(true))?;
             // println!("found {} {:?} {} {}", i, file.name(), file.size(), file.compressed_size());
 
             let name = file.name().to_owned();
